@@ -1,3 +1,4 @@
+import 'package:drink_water/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:dio/dio.dart';
 
@@ -14,16 +15,16 @@ Dio api(ApiRef ref) {
   dio.interceptors.add(
     InterceptorsWrapper(
       onRequest: (options, handler) {
-        print('Request: ${options.method} ${options.path} ${options.data}');
+        logger.d('Request: ${options.method} ${options.path} ${options.data}');
         return handler.next(options);
       },
       onResponse: (response, handler) {
-        print(
+        logger.d(
             'Response: ${response.statusCode} ${response.statusMessage} ${response.data}');
         return handler.next(response);
       },
       onError: (error, handler) {
-        print('Error: ${error.message}');
+        logger.e('Error: ${error.message}');
         return handler.next(error);
       },
     ),
