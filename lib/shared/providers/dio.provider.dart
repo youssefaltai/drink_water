@@ -15,16 +15,21 @@ Dio api(ApiRef ref) {
   dio.interceptors.add(
     InterceptorsWrapper(
       onRequest: (options, handler) {
-        logger.d('Request: ${options.method} ${options.path} ${options.data}');
+        logger.d(
+          'request: ${options.method} ${options.path} ${options.data}',
+        );
         return handler.next(options);
       },
       onResponse: (response, handler) {
         logger.d(
-            'Response: ${response.statusCode} ${response.statusMessage} ${response.data}');
+          'response: ${response.statusCode} ${response.statusMessage} ${response.data}',
+        );
         return handler.next(response);
       },
       onError: (error, handler) {
-        logger.e('Error: ${error.message}');
+        logger.e(
+          'error: ${error.message}',
+        );
         return handler.next(error);
       },
     ),

@@ -1,33 +1,43 @@
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'date.model.freezed.dart';
 part 'date.model.g.dart';
 
-@JsonSerializable()
-class DateModel {
-  final int day;
-  final int month;
-  final int year;
+@freezed
+class DateModel with _$DateModel {
+  const DateModel._();
 
-  DateModel({
-    required this.day,
-    required this.month,
-    required this.year,
-  });
-
-  factory DateModel.fromJson(Map<String, dynamic> json) =>
-      _$DateModelFromJson(json);
-
-  Map<String, dynamic> toJson() => _$DateModelToJson(this);
-
-  @override
-  toString() => '$year-$month-$day';
+  const factory DateModel({
+    required int year,
+    required int month,
+    required int day,
+  }) = _DateModel;
 
   factory DateModel.now() {
     final now = DateTime.now();
     return DateModel(
-      day: now.day,
-      month: now.month,
       year: now.year,
+      month: now.month,
+      day: now.day,
     );
   }
+
+  bool get isToday {
+    final now = DateTime.now();
+    return year == now.year && month == now.month && day == now.day;
+  }
+
+  factory DateModel.fromJson(Map<String, dynamic> json) =>
+      _$DateModelFromJson(json);
+
+  factory DateModel.fromDateTime(DateTime dateTime) => DateModel(
+        year: dateTime.year,
+        month: dateTime.month,
+        day: dateTime.day,
+      );
+
+  DateTime toDateTime() => DateTime(year, month, day);
+
+  DateModel yesterday() => copyWith(day: day - 1);
+  DateModel tomorrow() => copyWith(day: day + 1);
 }

@@ -1,6 +1,7 @@
-import 'package:drink_water/features/tracking/models/time.model.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import '../../features/tracking/models/time.model.dart';
 
 class TimePicker extends HookConsumerWidget {
   final TimeModel time;
@@ -26,11 +27,13 @@ class TimePicker extends HookConsumerWidget {
               ),
             );
             if (result != null) {
-              onTimeChanged(TimeModel(
-                hours: result.hour == 0 ? 12 : result.hour % 12,
-                minutes: result.minute,
-                ampm: result.period == DayPeriod.am ? AMPM.am : AMPM.pm,
-              ));
+              onTimeChanged(
+                TimeModel(
+                  hours: result.hour == 0 ? 12 : result.hour % 12,
+                  minutes: result.minute,
+                  ampm: result.period == DayPeriod.am ? AMPM.am : AMPM.pm,
+                ),
+              );
             }
           },
           child: Padding(
